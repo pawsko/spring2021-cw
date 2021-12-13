@@ -1,0 +1,5 @@
+app:
+  filename: data.csv
+spring:
+  banner:
+    location: logo-app.txt
