@@ -1,0 +1,13 @@
+.table-form,
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    align-items: center;
+}
+
+.table-form > * {
+    margin-top: 16px;
+}
