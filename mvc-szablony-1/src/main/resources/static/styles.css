@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.code-form {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+}
+
+.code-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.code-box {
+    margin: 16px;
+    padding: 16px;
+    border: 2px dashed;
+}
