@@ -1,0 +1,19 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.container > * {
+    display: flex;
+    justify-content: center;
+}
+
+.exclamation-mark {
+    font-size: 10em;
+    margin: 0 8px;
+}
+
+.text-form {
+    display: flex;
+    flex-direction: column;
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Statystyki tekstu</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>Statystyki tekstu</h1>
+    <form method="post" action="/stats" class="text-form">
+        <label for="text">Tekst, dla którego statystyki chcesz zobaczyć</label>
+        <textarea placeholder="Wprowadź tekst..." id="text" rows="10" name="text"></textarea>
+        <p>Które statystyki Cię interesują?</p>
+        <label>
+            Długość tekstu:
+            <input type="checkbox" name="length">
+        </label>
+        <label>
+            Liczba słów:
+            <input type="checkbox" name="words">
+        </label>
+        <label>
+            Sprawdzenie, czy tekst jest palindromem:
+            <input type="checkbox" name="palindrome">
+        </label>
+        <label>
+            Znalezienie najpopularniejszego słowa:
+            <input type="checkbox" name="mostPopularWord">
+        </label>
+        <button type="submit">Sprawdź statystyki</button>
+    </form>
+</div>
+</body>
+</html>
