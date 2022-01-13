@@ -12,23 +12,23 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Component
-class BMIMessageConverter extends AbstractHttpMessageConverter<BMIDto> {
-    public BMIMessageConverter() {
+class BMRMessageConverter extends AbstractHttpMessageConverter<BMRDto> {
+    public BMRMessageConverter() {
         super(MediaType.TEXT_PLAIN);
     }
 
     @Override
     protected boolean supports(Class<?> clazz) {
-        return BMIDto.class.equals(clazz);
+        return BMRDto.class.equals(clazz);
     }
 
     @Override
-    protected BMIDto readInternal(Class<? extends BMIDto> clazz, HttpInputMessage inputMessage) throws HttpMessageNotReadableException {
+    protected BMRDto readInternal(Class<? extends BMRDto> clazz, HttpInputMessage inputMessage) throws HttpMessageNotReadableException {
         return null;
     }
 
     @Override
-    protected void writeInternal(BMIDto bmiDto, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
-        outputMessage.getBody().write(Integer.toString(bmiDto.getBmi()).getBytes(StandardCharsets.UTF_8));
+    protected void writeInternal(BMRDto bmrDto, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+        outputMessage.getBody().write(Integer.toString(bmrDto.getBmr()).concat("kcal").getBytes(StandardCharsets.UTF_8));
     }
 }

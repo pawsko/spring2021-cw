@@ -13,8 +13,8 @@ class BodyWeightCalculator {
 
     int calculateBMR(double weight, double height, int age, String gender) {
         int s = switch (gender) {
-            case "M" -> BMR_CONSTANT_MAN;
-            case "W" -> BMR_CONSTANT_WOMAN;
+            case "man" -> BMR_CONSTANT_MAN;
+            case "woman" -> BMR_CONSTANT_WOMAN;
             default -> throw new IllegalArgumentException("Invalid gender " + gender);
         };
         return (int)(10 * weight + (6.25 * height) - (5 * age) + s);

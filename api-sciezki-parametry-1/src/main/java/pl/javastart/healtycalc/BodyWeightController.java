@@ -23,9 +23,9 @@ class BodyWeightController {
         this.bodyWeightCalculator = bodyWeightCalculator;
     }
 
-    @GetMapping(value = "/bmi", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/bmi", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
     ResponseEntity<BMIDto> calculateBMIJson(@RequestParam double weight,
-                                @RequestParam double height) {
+                                            @RequestParam double height) {
         if (containsNonPositiveNumber(weight, height)) {
             return ResponseEntity.badRequest()
                     .header("reason", BMI_INVALID_WEIGHT_HEIGHT)
@@ -36,24 +36,11 @@ class BodyWeightController {
         return ResponseEntity.ok(bmiResponse);
     }
 
-    @GetMapping(value = "/bmi", produces = MediaType.TEXT_PLAIN_VALUE)
-    ResponseEntity<String> calculateBMIText(@RequestParam double weight,
-                                            @RequestParam double height) {
-        if (containsNonPositiveNumber(weight, height)) {
-            return ResponseEntity.badRequest()
-                    .header("reason", BMI_INVALID_WEIGHT_HEIGHT)
-                    .build();
-        }
-        int bmi = bodyWeightCalculator.calculateBMI(weight, height);
-        BMIDto bmiResponse = new BMIDto(weight, height, bmi);
-        return ResponseEntity.ok(Integer.toString(bmiResponse.getBmi()));
-    }
-
-    @GetMapping(value = "/bmr", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/bmr", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
     ResponseEntity<BMRDto> calculateBMRJson(@RequestParam double weight,
-                        @RequestParam double height,
-                        @RequestParam int age,
-                        @RequestParam String gender) {
+                                            @RequestParam double height,
+                                            @RequestParam int age,
+                                            @RequestParam String gender) {
         if (containsNonPositiveNumber(weight, height, age)) {
             return ResponseEntity.badRequest()
                     .header("reason", BMR_INVALID_WEIGHT_HEIGHT_AGE)
@@ -66,25 +53,6 @@ class BodyWeightController {
         int bmr = bodyWeightCalculator.calculateBMR(weight, height, age, gender);
         BMRDto bmrResponse = new BMRDto(gender, weight, height, age, bmr);
         return ResponseEntity.ok(bmrResponse);
-    }
-
-    @GetMapping(value = "/bmr", produces = MediaType.TEXT_PLAIN_VALUE)
-    ResponseEntity<String> calculateBMRText(@RequestParam double weight,
-                                        @RequestParam double height,
-                                        @RequestParam int age,
-                                        @RequestParam String gender) {
-        if (containsNonPositiveNumber(weight, height, age)) {
-            return ResponseEntity.badRequest()
-                    .header("reason", BMR_INVALID_WEIGHT_HEIGHT_AGE)
-                    .build();
-        } else if (isIncorrectGenderValue(gender)) {
-            return ResponseEntity.badRequest()
-                    .header("reason", BMR_INVALID_GENDER)
-                    .build();
-        }
-        int bmr = bodyWeightCalculator.calculateBMR(weight, height, age, gender);
-        BMRDto bmrResponse = new BMRDto(gender, weight, height, age, bmr);
-        return ResponseEntity.ok(bmrResponse.getBmr() + "kcal");
     }
 
     private boolean containsNonPositiveNumber(double... params) {
