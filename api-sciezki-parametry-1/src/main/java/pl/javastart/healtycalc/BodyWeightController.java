@@ -15,7 +15,7 @@ class BodyWeightController {
     private static final String BMR_INVALID_WEIGHT_HEIGHT_AGE =
             "invalid data, weight, height and age parameteres must be positive numbers";
     private static final String BMR_INVALID_GENDER =
-            "invalid data, gender parameter must be M for Man or W for Woman";
+            "invalid data, gender parameter must be man or woman";
 
     private final BodyWeightCalculator bodyWeightCalculator;
 
