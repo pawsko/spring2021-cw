@@ -6,7 +6,6 @@ import javax.persistence.*;
 class Link {
     @Id
     private String id;
-    @Column(unique = true)
     private String targetUrl;
     private int visits;
 
