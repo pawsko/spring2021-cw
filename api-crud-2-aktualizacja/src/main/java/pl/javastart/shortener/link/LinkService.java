@@ -20,7 +20,7 @@ public class LinkService {
         do {
             randomId = UUIDRandomIdGenerator.generateId();
         } while (linkRepository.existsById(randomId));
-        Link newLink = new Link(randomId, link.getName(), link.getPassword(), link.getTargetUrl()); //dodane hasło
+        Link newLink = new Link(randomId, link.getName(), link.getPassword(), link.getTargetUrl());
         Link savedLink = linkRepository.save(newLink);
         return LinkDtoMapper.map(savedLink);
     }
