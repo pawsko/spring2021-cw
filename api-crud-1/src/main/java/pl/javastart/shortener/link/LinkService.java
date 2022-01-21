@@ -2,6 +2,7 @@ package pl.javastart.shortener.link;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.javastart.shortener.link.dto.LinkCreateDto;
 import pl.javastart.shortener.link.dto.LinkDto;
 
 import java.util.Optional;
@@ -15,12 +16,12 @@ public class LinkService {
     }
 
     @Transactional
-    public LinkDto shortenLink(String targetUrl) {
+    public LinkDto shortenLink(LinkCreateDto link) {
         String randomId;
         do {
             randomId = UUIDRandomIdGenerator.generateId();
         } while (linkRepository.existsById(randomId));
-        Link newLink = new Link(randomId, targetUrl);
+        Link newLink = new Link(randomId, link.getTargetUrl());
         Link savedLink = linkRepository.save(newLink);
         return LinkDtoMapper.map(savedLink);
     }

@@ -7,7 +7,6 @@ class UUIDRandomIdGenerator {
 
     public static String generateId() {
         UUID uuid = UUID.randomUUID();
-        System.out.println(uuid);
         String uuidWithoutDash = uuid.toString().replace("-", "");
         return uuidWithoutDash.substring(0, ID_SIZE);
     }

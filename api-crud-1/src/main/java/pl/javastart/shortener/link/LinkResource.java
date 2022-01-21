@@ -3,6 +3,7 @@ package pl.javastart.shortener.link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.javastart.shortener.link.dto.LinkCreateDto;
 import pl.javastart.shortener.link.dto.LinkDto;
 
 import java.net.URI;
@@ -17,8 +18,8 @@ class LinkResource {
     }
 
     @PostMapping
-    ResponseEntity<LinkDto> save(@RequestBody LinkDto link) {
-        LinkDto linkDto = linkService.shortenLink(link.getTargetUrl());
+    ResponseEntity<LinkDto> save(@RequestBody LinkCreateDto link) {
+        LinkDto linkDto = linkService.shortenLink(link);
         URI savedEntityLocation = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(linkDto.getId())
