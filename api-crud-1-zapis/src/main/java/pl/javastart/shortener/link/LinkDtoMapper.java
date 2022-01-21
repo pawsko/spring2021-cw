@@ -6,7 +6,7 @@ import pl.javastart.shortener.link.dto.LinkDto;
 class LinkDtoMapper {
     public static LinkDto map(Link link) {
         String redirectUrl = buildRedirectUrlFromId(link.getId());
-        return new LinkDto(link.getId(), link.getTargetUrl(), redirectUrl, link.getVisits());
+        return new LinkDto(link.getId(), link.getName(), link.getTargetUrl(), redirectUrl, link.getVisits());
     }
 
     private static String buildRedirectUrlFromId(String id) {

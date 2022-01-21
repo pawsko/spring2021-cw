@@ -21,7 +21,7 @@ public class LinkService {
         do {
             randomId = UUIDRandomIdGenerator.generateId();
         } while (linkRepository.existsById(randomId));
-        Link newLink = new Link(randomId, link.getTargetUrl());
+        Link newLink = new Link(randomId, link.getName(), link.getTargetUrl());
         Link savedLink = linkRepository.save(newLink);
         return LinkDtoMapper.map(savedLink);
     }

@@ -2,12 +2,14 @@ package pl.javastart.shortener.link.dto;
 
 public class LinkDto {
     private String id;
+    private String name;
     private String targetUrl;
     private String redirectUrl;
     private int visits;
 
-    public LinkDto(String id, String targetUrl, String redirectUrl, int visits) {
+    public LinkDto(String id, String name, String targetUrl, String redirectUrl, int visits) {
         this.id = id;
+        this.name = name;
         this.targetUrl = targetUrl;
         this.redirectUrl = redirectUrl;
         this.visits = visits;
@@ -19,6 +21,14 @@ public class LinkDto {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getTargetUrl() {

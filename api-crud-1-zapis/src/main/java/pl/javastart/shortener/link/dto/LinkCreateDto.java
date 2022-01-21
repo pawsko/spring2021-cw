@@ -1,7 +1,16 @@
 package pl.javastart.shortener.link.dto;
 
 public class LinkCreateDto {
+    private String name;
     private String targetUrl;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getTargetUrl() {
         return targetUrl;
