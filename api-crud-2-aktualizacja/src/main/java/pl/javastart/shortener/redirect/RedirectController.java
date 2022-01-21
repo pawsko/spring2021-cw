@@ -1,5 +1,6 @@
 package pl.javastart.shortener.redirect;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,7 @@ class RedirectController {
         return linkService.incrementVisitsById(id)
                 .map(LinkDto::getTargetUrl)
                 .map(targetUrl -> ResponseEntity
-                        .status(302)
+                        .status(HttpStatus.FOUND)
                         .location(URI.create(targetUrl))
                         .build())
                 .orElse(ResponseEntity.notFound().build());
