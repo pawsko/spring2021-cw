@@ -28,7 +28,7 @@ class LinkResource {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<LinkDto> save(@PathVariable String id) {
+    ResponseEntity<LinkDto> findById(@PathVariable String id) {
         return linkService.findLinkById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
