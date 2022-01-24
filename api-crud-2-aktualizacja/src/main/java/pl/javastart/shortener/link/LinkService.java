@@ -41,12 +41,12 @@ public class LinkService {
     public void updateLink(String linkId, LinkUpdateDto link) {
         Optional<Link> linkToUpdate = linkRepository.findById(linkId);
         linkToUpdate.orElseThrow(LinkNotFoundException::new);
-        linkToUpdate.filter(entity -> checkPassword(entity, link))
+        linkToUpdate.filter(entity -> checkPassword(entity, link.getPassword()))
                 .orElseThrow(InvalidPasswordException::new)
                 .setName(link.getName());
     }
 
-    private boolean checkPassword(Link entity, LinkUpdateDto dto) {
-        return entity.getPassword() != null && entity.getPassword().equals(dto.getPassword());
+    private boolean checkPassword(Link entity, String password) {
+        return entity.getPassword() != null && entity.getPassword().equals(password);
     }
 }
