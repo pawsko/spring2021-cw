@@ -1,0 +1,6 @@
+app:
+  filename: data.csv
+spring:
+  banner:
+    location: logo-apt.txt
+    charset: UTF-8
