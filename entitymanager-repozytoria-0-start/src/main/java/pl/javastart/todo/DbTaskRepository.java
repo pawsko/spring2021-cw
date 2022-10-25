@@ -1,13 +1,12 @@
 package pl.javastart.todo;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.Optional;
 
 @Repository
-public class DbTaskRepository implements TaskRepository{
+public class DbTaskRepository implements TaskRepository {
 
     private final EntityManager entityManager;
     private static long nextId = 1;
@@ -17,7 +16,6 @@ public class DbTaskRepository implements TaskRepository{
         this.entityManager = entityManager;
     }
 
-    @Transactional
     @Override
     public Task save(Task task) {
         task.setId(nextId);
@@ -25,6 +23,7 @@ public class DbTaskRepository implements TaskRepository{
         nextId++;
         return task;
     }
+
 
     @Override
     public Optional<Task> findById(Long id) {

@@ -1,16 +1,22 @@
 package pl.javastart.todo;
 
 import org.springframework.stereotype.Controller;
+import pl.javastart.todo.dto.NewTaskDto;
+import pl.javastart.todo.dto.TaskDurationDto;
+import pl.javastart.todo.exception.TaskAlreadyCompletedException;
+import pl.javastart.todo.exception.TaskAlreadyStartedException;
+import pl.javastart.todo.exception.TaskNotFoundException;
 
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 @Controller
 class TaskController {
-    private final TaskRepository taskRepository;
+    private final TaskService taskService;
     private final Scanner scanner;
 
-    public TaskController(TaskRepository taskRepository, Scanner scanner) {
-        this.taskRepository = taskRepository;
+    TaskController(TaskService taskService, Scanner scanner) {
+        this.taskService = taskService;
         this.scanner = scanner;
     }
 
@@ -44,6 +50,12 @@ class TaskController {
             case PRINT_SINGLE -> {
                 printTask();
             }
+            case START_TASK -> {
+                startTask();
+            }
+            case STOP_TASK -> {
+                completeTask();
+            }
             case EXIT -> {
                 exit();
             }
@@ -58,16 +70,42 @@ class TaskController {
         System.out.println("Priorytet (wyższa liczba = wyższy priorytet):");
         int priority = scanner.nextInt();
         scanner.nextLine();
-        Task task = new Task(title, description, priority);
-        Task savedTask = taskRepository.save(task);
-        System.out.println("Zadanie zapisane z identyfikatorem " + savedTask.getId());
+        NewTaskDto task = new NewTaskDto(title, description, priority);
+        Long savedTaskId = taskService.saveTask(task);
+        System.out.println("Zadanie zapisane z identyfikatorem " + savedTaskId);
+    }
+
+    private void startTask() {
+        System.out.println("Podaj id zadania, które chcesz wystartować:");
+        long taskId = scanner.nextLong();
+        scanner.nextLine();
+        try {
+            LocalDateTime startTime = taskService.startTask(taskId);
+            System.out.println("Czas rozpoczęcia zadania: " + startTime);
+        } catch (TaskAlreadyStartedException e) {
+            System.out.println("Zadanie zostało już wcześniej wystartowane.");
+        }
+    }
+
+    private void completeTask() {
+        System.out.println("Podaj id zadania, które chcesz zatrzymać:");
+        long taskId = scanner.nextLong();
+        scanner.nextLine();
+        try {
+            TaskDurationDto taskDurationDto = taskService.completeTask(taskId);
+            System.out.println(taskDurationDto);
+        } catch (TaskAlreadyCompletedException e) {
+            System.out.println("Zadanie zostało juz wcześniej zakończone");
+        } catch (TaskAlreadyStartedException e) {
+            System.out.println("Wystartuj zadanie zanim je zakóńczysz");
+        }
     }
 
     private void printTask() {
         System.out.println("Podaj identyfikator zadania:");
         long taskId = scanner.nextLong();
         scanner.nextLine();
-        taskRepository.findById(taskId)
+        taskService.getTaskInfo(taskId)
                 .ifPresentOrElse(
                         System.out::println,
                         () -> System.out.println("Brak wpisu o takim id")
@@ -82,7 +120,9 @@ class TaskController {
     private enum Option {
         ADD(1, "Dodaj nowe zadanie"),
         PRINT_SINGLE(2, "Wyświetl zadanie"),
-        EXIT(3, "Koniec programu");
+        START_TASK(3, "Wystartuj zadanie"),
+        STOP_TASK(4, "Zakończ zadanie"),
+        EXIT(5, "Koniec programu");
 
         private final int number;
         private final String name;
