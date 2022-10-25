@@ -43,23 +43,29 @@ class TaskController {
     }
 
     private void evaluateOption(Option option) {
-        switch (option) {
-            case ADD -> {
-                addTask();
+        try {
+            switch (option) {
+                case ADD -> addTask();
+                case PRINT_SINGLE -> printTask();
+                case NOT_STARTED_TASK -> notStartedTask();
+                case FINISHED_TASK -> finishedTask();
+                case START_TASK -> startTask();
+                case STOP_TASK -> completeTask();
+                case EXIT -> exit();
             }
-            case PRINT_SINGLE -> {
-                printTask();
-            }
-            case START_TASK -> {
-                startTask();
-            }
-            case STOP_TASK -> {
-                completeTask();
-            }
-            case EXIT -> {
-                exit();
-            }
+        } catch (TaskNotFoundException e) {
+            System.out.println("Nie odnaleziono zadania o takim numerze");
         }
+    }
+
+    private void finishedTask() {
+        taskService.AllFinishedTask()
+                .forEach(System.out::println);
+    }
+
+    private void notStartedTask() {
+        taskService.AllNotStartedTask()
+                .forEach(System.out::println);
     }
 
     private void addTask() {
@@ -97,7 +103,7 @@ class TaskController {
         } catch (TaskAlreadyCompletedException e) {
             System.out.println("Zadanie zostało juz wcześniej zakończone");
         } catch (TaskAlreadyStartedException e) {
-            System.out.println("Wystartuj zadanie zanim je zakóńczysz");
+            System.out.println("Wystartuj zadanie zanim je zakończysz");
         }
     }
 
@@ -120,9 +126,11 @@ class TaskController {
     private enum Option {
         ADD(1, "Dodaj nowe zadanie"),
         PRINT_SINGLE(2, "Wyświetl zadanie"),
-        START_TASK(3, "Wystartuj zadanie"),
-        STOP_TASK(4, "Zakończ zadanie"),
-        EXIT(5, "Koniec programu");
+        NOT_STARTED_TASK(3, "Wyświetl nierozpoczęte zadania"),
+        FINISHED_TASK(4, "Wyświetl zakończone zadania"),
+        START_TASK(5, "Wystartuj zadanie"),
+        STOP_TASK(6, "Zakończ zadanie"),
+        EXIT(7, "Koniec programu");
 
         private final int number;
         private final String name;

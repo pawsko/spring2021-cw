@@ -35,7 +35,7 @@ public class TaskDurationDto {
                 duration.toSecondsPart()
         );
     return String.format(
-            "Czas rozpoczęcia: %s\nCzas zakończenia: %s\n Czas wykonania zadania: %s",
+            "Czas rozpoczęcia: %s\nCzas zakończenia: %s\nCzas wykonania zadania: %s",
             startTime.toString(),
             completionTime.toString(),
             taskDurationFormatted

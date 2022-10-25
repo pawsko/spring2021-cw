@@ -9,7 +9,9 @@ import pl.javastart.todo.exception.*;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
@@ -32,7 +34,7 @@ public class TaskService {
         return savedTask.getId();
     }
 
-    public Optional<String> getTaskInfo(Long taskId){
+    public Optional<String> getTaskInfo(Long taskId) {
         return taskRepository.findById(taskId).map(Task::toString);
     }
 
@@ -58,5 +60,25 @@ public class TaskService {
         }
         task.setCompletionTime(LocalDateTime.now());
         return new TaskDurationDto(task.getStartTime(), task.getCompletionTime());
+    }
+
+    public List<NewTaskDto> AllNotStartedTask() {
+        return taskRepository.findAllByStartTimeIsNullOrderByPriorityDesc()
+                .stream().map(task -> new NewTaskDto(
+                        task.getId(),
+                        task.getTitle(),
+                        task.getDescription(),
+                        task.getPriority()
+                )).collect(Collectors.toList());
+    }
+
+    public List<NewTaskDto> AllFinishedTask() {
+        return taskRepository.findAllByCompletionTimeIsNotNullOrderByCompletionTimeDesc()
+                .stream().map(task -> new NewTaskDto(
+                        task.getId(),
+                        task.getTitle(),
+                        task.getDescription(),
+                        task.getPriority()
+                )).collect(Collectors.toList());
     }
 }
